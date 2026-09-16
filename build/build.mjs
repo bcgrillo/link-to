@@ -27,6 +27,9 @@ const OUT_DIR = process.env.OUT_DIR ?? join(ROOT, 'dist');
 const LINKS_DIR = process.env.LINKS_DIR ?? join(ROOT, 'links');
 const ASSETS_DIR = process.env.ASSETS_DIR ?? join(ROOT, 'assets');
 const OG_RECOMMENDED = { width: 1200, height: 630 };
+const AUTHOR_NAME = process.env.AUTHOR_NAME ?? 'Bruno Grillo';
+const AUTHOR_URL = process.env.AUTHOR_URL ?? 'https://brunogrillo.dev';
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}(:\d{2})?(Z|[+-]\d{2}:\d{2})?)?$/;
 
 const escHtml = (s) =>
   s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -88,6 +91,17 @@ function redirectPage({ slug, link, dims, assetUrl }) {
   const dimsTags = dims
     ? `\n    <meta property="og:image:width" content="${dims.width}">\n    <meta property="og:image:height" content="${dims.height}">`
     : '';
+  const authorTags = [
+    link.author ? `\n    <meta name="author" content="${escHtml(link.author)}">` : '',
+    link.author_url ? `\n    <meta property="article:author" content="${escHtml(link.author_url)}">` : '',
+  ].join('');
+  const dateTags = [
+    link.published ? `\n    <meta property="article:published_time" content="${escHtml(link.published)}">` : '',
+    link.modified ? `\n    <meta property="article:modified_time" content="${escHtml(link.modified)}">` : '',
+  ].join('');
+  const tags = link.tags ?? [];
+  const tagTags = tags.map((t) => `\n    <meta property="article:tag" content="${escHtml(t)}">`).join('');
+  const keywordsTag = tags.length ? `\n    <meta name="keywords" content="${escHtml(tags.join(', '))}">` : '';
   return `<!doctype html>
 <html lang="es">
   <head>
@@ -100,7 +114,7 @@ function redirectPage({ slug, link, dims, assetUrl }) {
     <meta http-equiv="refresh" content="0; url=${targetDisp}">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="brunogrillo.dev">
-    <meta property="og:locale" content="es_ES">
+    <meta property="og:locale" content="es_ES">${authorTags}${dateTags}${tagTags}${keywordsTag}
     <meta property="og:title" content="${title}">
     <meta property="og:description" content="${desc}">
     <meta property="og:url" content="${pageUrl}">
@@ -221,7 +235,29 @@ function main() {
       } else if (dims.width !== OG_RECOMMENDED.width || dims.height !== OG_RECOMMENDED.height) {
         warnings.push(`${slug}: la imagen OG es ${dims.width}×${dims.height}, se recomienda ${OG_RECOMMENDED.width}×${OG_RECOMMENDED.height}`);
       }
-      links.push({ slug, title: fm.title, description: fm.description, url: fm.url, image, image_alt: fm.image_alt, dims });
+      const author = (fm.author ?? AUTHOR_NAME).trim() || null;
+      const authorUrl = (fm.author_url ?? AUTHOR_URL).trim() || null;
+      if (authorUrl && !/^https?:\/\//.test(authorUrl)) throw new Error(`"author_url" debe empezar por http(s)://`);
+      for (const key of ['published', 'modified']) {
+        if (fm[key] && !ISO_DATE.test(fm[key].trim())) {
+          throw new Error(`"${key}" debe ser una fecha ISO 8601 (ej. 2026-09-16), recibido: "${fm[key]}"`);
+        }
+      }
+      const tags = fm.tags ? fm.tags.split(',').map((t) => t.trim()).filter(Boolean) : [];
+      links.push({
+        slug,
+        title: fm.title,
+        description: fm.description,
+        url: fm.url,
+        image,
+        image_alt: fm.image_alt,
+        author,
+        author_url: authorUrl,
+        published: fm.published?.trim() || null,
+        modified: fm.modified?.trim() || null,
+        tags,
+        dims,
+      });
     } catch (err) {
       errors.push(`${file}: ${err.message}`);
     }

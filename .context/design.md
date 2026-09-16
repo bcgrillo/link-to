@@ -4,9 +4,9 @@ Servicio de redirecciones con tarjetas OG personalizadas, publicado en GitHub Pa
 
 ## Arquitectura
 
-- **Repo estático + CI**: no hay servidor. Cada link vive en un archivo `links/<slug>.md` con frontmatter (`title`, `description`, `url`, `image` opcional, `image_alt` opcional). La imagen OG vive en `assets/<slug>/` (por defecto `og.png`).
-- **Generador** (`build/build.mjs`, Node ≥18, zero-dependencias): lee los `links/*.md`, valida (slug, campos obligatorios, existencia de imagen), lee las dimensiones reales de la imagen (PNG IHDR / JPEG SOF) y genera en `dist/`:
-  - `dist/<slug>/index.html` — página de redirección: `meta refresh` + `location.replace()` + enlace visible de fallback; en el `<head>`: `og:*`, `twitter:*` con `og:image` absoluto y dimensiones, `canonical` apuntando al destino, `noindex`.
+- **Repo estático + CI**: no hay servidor. Cada link vive en un archivo `links/<slug>.md` con frontmatter (`title`, `description`, `url` obligatorios; opcionales: `image`, `image_alt`, `published`/`modified` (ISO 8601), `tags` (lista separada por comas), `author`/`author_url` con defaults globales "Bruno Grillo" / `https://brunogrillo.dev`). La imagen OG vive en `assets/<slug>/` (por defecto `og.png`).
+- **Generador** (`build/build.mjs`, Node ≥18, zero-dependencias): lee los `links/*.md`, valida (slug, campos obligatorios, formato de fechas, existencia de imagen), lee las dimensiones reales de la imagen (PNG IHDR / JPEG SOF) y genera en `dist/`:
+  - `dist/<slug>/index.html` — página de redirección: `meta refresh` + `location.replace()` + enlace visible de fallback; en el `<head>`: `og:*`, `twitter:*`, autor (`meta author` + `article:author`), fechas (`article:published_time`/`modified_time`), tags (`article:tag` + `keywords`), con `og:image` absoluto y dimensiones, `canonical` apuntando al destino, `noindex`.
   - `dist/index.html` — landing con listado de links.
   - `dist/404.html` — lista links disponibles.
   - `dist/.nojekyll` y `dist/assets/` (copia de assets).

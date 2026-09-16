@@ -8,4 +8,6 @@ Estado global del proyecto (tareas activas → ver `.context/task.md`).
 - [x] Merge a `main` → primera publicación real
 - [x] Repo público + Pages activado (único paso manual) + deploy verde
 - [x] Verificado en vivo: index, redirect page y og.png responden 200 con contenido correcto
+- [x] Extensión `feature/og-author`: metadatos author/author_url, published/modified, tags
 - [ ] Verificar la tarjeta OG publicada (probadores: sharedebug de Facebook/LinkedIn/X)
+- [ ] Merge de `feature/og-author` a `main`

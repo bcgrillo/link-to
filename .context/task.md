@@ -2,7 +2,7 @@
 
 **Objetivo**: crear en el repo `bcgrillo/link-to` un sitio con una entrada por cada artículo del blog (`brunogrillo.dev/link-to/<slug>`) que muestra tarjeta OG personalizada al compartir y redirige al artículo. Publicación automática vía GitHub Actions al añadir/modificar `links/<slug>.md`.
 
-## Estado: publicado y verificado en vivo ✅
+## Estado: publicado y verificado en vivo ✅ — extensión: metadatos (rama `feature/og-author`)
 
 Hecho:
 - [x] Link de prueba: `links/dormir-tranquilo.md` → Medium, imagen OG 1200×630 en `assets/dormir-tranquilo/og.png`
@@ -18,7 +18,17 @@ Hecho:
   - `https://brunogrillo.dev/link-to/assets/dormir-tranquilo/og.png` → 200 (PNG 1200×630)
 
 Pendiente:
-- [ ] Verificar tarjeta OG con scrapers reales (Facebook Sharing Debugger, LinkedIn Post Inspector, X Card Validator) — caché de scrapers puede requerir re-scrape
+- [x] Verificar tarjeta OG con scrapers reales — pendiente de que el usuario la pruebe compartiendo el link (caché de scrapers)
+- [ ] Merge de `feature/og-author` a `main` (tras confirmación del usuario)
+
+## Extensión: metadatos de atribución/fechas/tags (`feature/og-author`)
+
+- El usuario pidió añadir autor y similares a las cards. Implementado en el generador:
+  - `author` / `author_url` (opcional, defaults globales "Bruno Grillo" / `https://brunogrillo.dev`, sobrescribibles por link; vacío → se omiten los tags) → `meta name="author"` + `og:article:author`.
+  - `published` / `modified` (ISO 8601, validado; inválido → build falla) → `article:published_time` / `article:modified_time`.
+  - `tags` (lista separada por comas) → `article:tag` por valor + `meta keywords`.
+- `links/dormir-tranquilo.md` actualizado: `published: 2026-09-16`, `tags: AI, Agents, Software Development, Information Security` (corregida errata "Developement" → "Development").
+- Verificado: build OK, tags correctos en el HTML, validaciones negativas OK.
 
 ## Notas temporales
 

@@ -12,12 +12,17 @@ Servicio de redirecciones con tarjetas OG personalizadas. Cada artículo del blo
    description: Descripción corta para la tarjeta.
    url: https://destino-del-articulo/...
    image: og.png
+   published: 2026-09-16
+   tags: AI, Agents, Software Development
    ---
    ```
 
    - `title`, `description` y `url` son obligatorios.
    - `image` (opcional, por defecto `og.png`): nombre del archivo de imagen dentro de `assets/<slug>/`.
    - `image_alt` (opcional): texto alternativo de la imagen.
+   - `published` / `modified` (opcional): fecha ISO 8601 (ej. `2026-09-16`) → `article:published_time` / `article:modified_time`.
+   - `tags` (opcional): lista separada por comas → `article:tag` + `keywords`.
+   - `author` / `author_url` (opcional): por defecto "Bruno Grillo" / `https://brunogrillo.dev` → `meta author` + `article:author`. Ponlos vacíos para omitirlos.
 
 2. **Añade la imagen OG** en `assets/<slug>/og.png` (o `.jpg`). Dimensiones recomendadas: **1200×630 px** (ratio 1.91:1, el estándar OG que usan todas las plataformas).
 

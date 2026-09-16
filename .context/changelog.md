@@ -17,3 +17,8 @@
   - `https://brunogrillo.dev/link-to/dormir-tranquilo/` (redirect + OG tags)
   - `https://brunogrillo.dev/link-to/assets/dormir-tranquilo/og.png` (1200×630)
 - A partir de ahora: cada push a `main` (p. ej. añadir `links/<slug>.md`) publica solo.
+
+## v0.1.2 — metadatos de autor, fechas y tags (pendiente de merge)
+
+- Nuevos campos opcionales en `links/<slug>.md`: `author`/`author_url` (defaults globales "Bruno Grillo" / `https://brunogrillo.dev`), `published`/`modified` (ISO 8601, validado) y `tags` (lista separada por comas).
+- Meta tags añadidos a las páginas de redirección: `meta name="author"`, `article:author`, `article:published_time`, `article:modified_time`, `article:tag` (uno por tag) y `meta keywords`.
