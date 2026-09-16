@@ -11,10 +11,10 @@ Hecho:
 - [x] Build ejecutado y verificado localmente (HTML correcto, asset copiado, warns de dimensiones OK)
 
 Pendiente:
-- [ ] Push a `feature/sitio-redirecciones-og` (checkpoint commits) — hecho/verificado
-- [ ] Habilitar GitHub Pages con `build_type=workflow` vía API
+- [ ] Push a `feature/sitio-redirecciones-og` (checkpoint commits) — hecho (sin el workflow: el PAT de git no tiene scope `workflow` y la API MCP responde sin autenticación)
+- [ ] Introducir `.github/workflows/deploy.yml` en GitHub (vía scope en token o manual en la web) — bloqueado, pendiente del usuario
 - [ ] **Confirmar con el usuario el merge a `main`** → primera publicación real
-- [ ] Usuario reemplaza `assets/dormir-tranquilo/og.png` por la versión 1200×630 (mismo path)
+- [x] Usuario reemplaza `assets/dormir-tranquilo/og.png` por la versión 1200×630 (mismo path)
 - [ ] Verificar tarjeta OG publicada (scrapers de FB/X/LinkedIn)
 
 ## Notas temporales
