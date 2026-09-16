@@ -2,23 +2,23 @@
 
 **Objetivo**: crear en el repo `bcgrillo/link-to` un sitio con una entrada por cada artículo del blog (`brunogrillo.dev/link-to/<slug>`) que muestra tarjeta OG personalizada al compartir y redirige al artículo. Publicación automática vía GitHub Actions al añadir/modificar `links/<slug>.md`.
 
-## Estado: implementado, pendiente de publicar
+## Estado: integrado en `main` y empujado — deploy en curso
 
 Hecho:
-- [x] Link de prueba creado: `links/dormir-tranquilo.md` → Medium, con imagen movida a `assets/dormir-tranquilo/og.png`
-- [x] Generador `build/build.mjs` (zero-dependencias) + workflow `deploy.yml`
+- [x] Link de prueba: `links/dormir-tranquilo.md` → Medium, imagen OG 1200×630 en `assets/dormir-tranquilo/og.png`
+- [x] Generador `build/build.mjs` + workflow `deploy.yml` (con `configure-pages@v5 enablement: true` para auto-habilitar Pages)
 - [x] README + docs `.context/`
-- [x] Build ejecutado y verificado localmente (HTML correcto, asset copiado, warns de dimensiones OK)
+- [x] Build verificado localmente (rutas, HTML, imagen 200 OK)
+- [x] Rama `feature/sitio-redirecciones-og` empujada (el workflow requirió añadir scope `workflow` al token)
+- [x] Merge (fast-forward) a `main` confirmado por el usuario y empujado → dispara el deploy
 
 Pendiente:
-- [ ] Push a `feature/sitio-redirecciones-og` (checkpoint commits) — hecho (sin el workflow: el PAT de git no tiene scope `workflow` y la API MCP responde sin autenticación)
-- [ ] Introducir `.github/workflows/deploy.yml` en GitHub (vía scope en token o manual en la web) — bloqueado, pendiente del usuario
-- [ ] **Confirmar con el usuario el merge a `main`** → primera publicación real
-- [x] Usuario reemplaza `assets/dormir-tranquilo/og.png` por la versión 1200×630 (mismo path)
-- [ ] Verificar tarjeta OG publicada (scrapers de FB/X/LinkedIn)
+- [ ] Verificar run de Actions y site publicado (repo privado: la API anónima no ve runs; verificación pendiente de acceso a brunogrillo.dev o comprobación manual del usuario)
+- [ ] Verificar tarjeta OG con scrapers reales (Facebook Sharing Debugger, LinkedIn Post Inspector, X Card Validator)
 
 ## Notas temporales
 
-- Egress de CodePods bloquea `brunogrillo.dev` y `docs.github.com`; para verificar el site publicado se necesitará aprobación de acceso del usuario (o comprobar vía API de GitHub / `bcgrillo.github.io`).
-- Credenciales git funcionan vía GIT_ASKPASS inyectado; identidad configurada local (`bcgrillo` + noreply).
-- Rate limit API GitHub: 60 req/h — usar con moderación.
+- El repo `link-to` es privado → la API pública sin auth no ve runs/pages; las comprobaciones vía API anónima dan 404.
+- CodePods egress bloquea brunogrillo.dev / bcgrillo.github.io — solicitud #19 pendiente de aprobar para verificación final.
+- El token git tiene ya scope `workflow`; la API MCP sigue sin autenticar (401 en /user).
+- Si Pages no queda accesible: revisar Settings → Pages (Source: GitHub Actions) y visibilidad del site.
