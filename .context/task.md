@@ -2,7 +2,7 @@
 
 **Objetivo**: crear en el repo `bcgrillo/link-to` un sitio con una entrada por cada artículo del blog (`brunogrillo.dev/link-to/<slug>`) que muestra tarjeta OG personalizada al compartir y redirige al artículo. Publicación automática vía GitHub Actions al añadir/modificar `links/<slug>.md`.
 
-## Estado: publicado y verificado en vivo ✅ — extensión: metadatos (rama `feature/og-author`)
+## Estado: publicado y verificado en vivo ✅ — v0.1.2 (metadatos) también en producción
 
 Hecho:
 - [x] Link de prueba: `links/dormir-tranquilo.md` → Medium, imagen OG 1200×630 en `assets/dormir-tranquilo/og.png`
@@ -19,7 +19,7 @@ Hecho:
 
 Pendiente:
 - [x] Verificar tarjeta OG con scrapers reales — pendiente de que el usuario la pruebe compartiendo el link (caché de scrapers)
-- [ ] Merge de `feature/og-author` a `main` (tras confirmación del usuario)
+- [x] Merge de `feature/og-author` a `main` (fast-forward) — deploy 35073262856 verde, meta tags verificados en vivo
 
 ## Extensión: metadatos de atribución/fechas/tags (`feature/og-author`)
 
