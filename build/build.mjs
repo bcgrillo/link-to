@@ -126,8 +126,8 @@ function redirectPage({ slug, link, dims, assetUrl }) {
     <meta name="twitter:image" content="${assetUrl}">
     <meta name="twitter:image:alt" content="${alt}">
   </head>
-  <body style="margin:0;display:grid;place-items:center;min-height:100vh;font-family:system-ui,sans-serif;background:#0f172a;color:#e2e8f0">
-    <p>Redirigiendo a <a href="${targetDisp}" style="color:#7dd3fc">${targetDisp}</a>…</p>
+  <body style="margin:0;min-height:100vh;background:#0f172a">
+    <p style="position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">Redirigiendo a <a href="${targetDisp}">${targetDisp}</a>…</p>
     <script>location.replace(${targetJs})</script>
   </body>
 </html>
